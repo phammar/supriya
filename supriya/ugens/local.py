@@ -1,9 +1,11 @@
 from .core import UGen, param, ugen
 
 @ugen(ar=True)
-class  MIPlaits(UGen):
+class MiPlaits(UGen):
     """
     Mutable Instruments Plaits UGen.
+    https://github.com/v7b1/mi-UGens
+    
     Instructions adapted from https://tidalcycles.org/docs/reference/mi-ugens-installation/
 
     Built here: ~/SuperCollider/mi-UGens/build/mi-UGens
@@ -21,25 +23,58 @@ class  MIPlaits(UGen):
     Load the mi-ugens.scd synthdef in startup.scd. Use the full path from 3.
     load("~/.local/share/SuperCollider/synthdefs/mi-ugens.scd");
 
+    see: mi-UGens/build/mi-UGens/Classes/MiPlaits.sc
+    MiPlaits : MultiOutUGen {
+
+	*ar {
+		arg pitch=60.0, engine=0, harm=0.1, timbre=0.5, morph=0.5, trigger=0.0, level=0, fm_mod=0.0, timb_mod=0.0,
+		morph_mod=0.0, decay=0.5, lpg_colour=0.5, mul=1.0;
+		^this.multiNew('audio', pitch, engine, harm, timbre, morph, trigger, level, fm_mod, timb_mod, morph_mod,
+			decay, lpg_colour).madd(mul);
+	}
+	//checkInputs { ^this.checkSameRateAsFirstInput }
+
+	init { arg ... theInputs;
+		inputs = theInputs;
+		^this.initOutputs(2, rate);
+	}
+}
+
     ::
 
-        >>> supriya.ugens.MIPlaits.ar()
-        <MIPlaits.ar()[0]>
+        >>> supriya.ugens.MiPlaits.ar()
+        <MiPlaits.ar()[0]>
     """
-
-    fm_mod = param(0.0)
-    trigger = param(0.0)
-    decay = param(0.5)
+    # out=0
+    freq = param(440)
+    sustain = param(1)
+    pan = param(0)
+    begin = param(0)
+    end = param(1)
+    speed = param(1)
+    accelerate = param(0)
     timbre = param(0.5)
-    mul = param(1.0 )
-    harm = param(0.1)
-    morph_mod = param(0.0)
-    pitch = param(60.0)
-    morph = param(0.5)
-    lpg_colour = param(0.5)
-    level = param(0)
     engine = param(0)
-    timb_mod = param(0.0)
+    harm = param(0.5)
+    morph = param(0.5)
+    level = param(1)
+    lpgdecay = param(0)
+    lpgcolour = param(0)
+    mode = param(0)
+
+    # fm_mod = param(0.0)
+    # trigger = param(0.0)
+    # decay = param(0.5)
+    # timbre = param(0.5)
+    # mul = param(1.0)
+    # harm = param(0.1)
+    # morph_mod = param(0.0)
+    # pitch = param(60.0)
+    # morph = param(0.5)
+    # lpg_colour = param(0.5)
+    # level = param(0)
+    # engine = param(0)
+    # timb_mod = param(0.0)
 
 # Output of
 # ugen.postln;
@@ -56,12 +91,12 @@ class  MIPlaits(UGen):
 #   (harm -> 0.1), (morph_mod -> 0.0), (pitch -> 60.0), (morph -> 0.5), (lpg_colour -> 0.5), 
 #   (level -> 0), (engine -> 0), (timb_mod -> 0.0) ]
 
-# class MIPlaits(MultiOutUGen):
+# class MiPlaits(MultiOutUGen):
 #     """
 
 #     ::
 
-#         >>> mi_plaits = supriya.ugens.MIPlaits.ar(
+#         >>> mi_plaits = supriya.ugens.MiPlaits.ar(
 #         ...     fm_mod=0.0,
 #         ...     trigger=0.0,
 #         ...     decay=0.5,
@@ -77,7 +112,7 @@ class  MIPlaits(UGen):
 #         ...     timb_mod=0.0
 #         ...     )
 #         >>> mi_plaits
-#         MIPlaits.ar()
+#         MiPlaits.ar()
 
 #     """
 
@@ -158,11 +193,11 @@ class  MIPlaits(UGen):
 #         timb_mod=0.0,
 #         ):
 #         """
-#         Constructs an audio-rate MIPlaits.
+#         Constructs an audio-rate MiPlaits.
 
 #         ::
 
-#             >>> mi_plaits = supriya.ugens.MIPlaits.ar(
+#             >>> mi_plaits = supriya.ugens.MiPlaits.ar(
 #             ...     fm_mod=0.0,
 #             ...     trigger=0.0,
 #             ...     decay=0.5,
@@ -178,7 +213,7 @@ class  MIPlaits(UGen):
 #             ...     timb_mod=0.0,
 #             ...     )
 #             >>> mi_plaits
-#             MIPlaits.ar()
+#             MiPlaits.ar()
 
 #         Returns ugen graph.
 #         """
@@ -209,7 +244,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def fm_mod(self):
 #         """
-#         Gets `fm_mod` input of MIPlaits.
+#         Gets `fm_mod` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -219,7 +254,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def trigger(self):
 #         """
-#         Gets `trigger` input of MIPlaits.
+#         Gets `trigger` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -229,7 +264,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def decay(self):
 #         """
-#         Gets `decay` input of MIPlaits.
+#         Gets `decay` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -239,7 +274,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def timbre(self):
 #         """
-#         Gets `timbre` input of MIPlaits.
+#         Gets `timbre` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -249,7 +284,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def mul(self):
 #         """
-#         Gets `mul` input of MIPlaits.
+#         Gets `mul` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -259,7 +294,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def harm(self):
 #         """
-#         Gets `harm` input of MIPlaits.
+#         Gets `harm` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -269,7 +304,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def morph_mod(self):
 #         """
-#         Gets `morph_mod` input of MIPlaits.
+#         Gets `morph_mod` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -279,7 +314,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def pitch(self):
 #         """
-#         Gets `pitch` input of MIPlaits.
+#         Gets `pitch` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -289,7 +324,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def morph(self):
 #         """
-#         Gets `morph` input of MIPlaits.
+#         Gets `morph` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -299,7 +334,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def lpg_colour(self):
 #         """
-#         Gets `lpg_colour` input of MIPlaits.
+#         Gets `lpg_colour` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -309,7 +344,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def level(self):
 #         """
-#         Gets `level` input of MIPlaits.
+#         Gets `level` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -319,7 +354,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def engine(self):
 #         """
-#         Gets `engine` input of MIPlaits.
+#         Gets `engine` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
@@ -329,7 +364,7 @@ class  MIPlaits(UGen):
 #     @property
 #     def timb_mod(self):
 #         """
-#         Gets `timb_mod` input of MIPlaits.
+#         Gets `timb_mod` input of MiPlaits.
 
 #         Returns ugen input.
 #         """
