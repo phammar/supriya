@@ -4,42 +4,53 @@ from .core import UGen, param, ugen
 class MiPlaits(UGen):
     """
     Mutable Instruments Plaits UGen.
-    https://github.com/v7b1/mi-UGens
-    
-    Instructions adapted from https://tidalcycles.org/docs/reference/mi-ugens-installation/
 
-    Built here: ~/SuperCollider/mi-UGens/build/mi-UGens
-    Extensions dir: Platform.userExtensionDir
-    Copied mi-UGens to ~/.local/share/SuperCollider/Extensions
+    Attributes
+    ----------
+    pitch : int
+        pitch (midi note)
 
-    Create a new synthdef file mi-ugens.scd, with these synthdefs
-    Linux: ~/.local/share/SuperCollider/synthdefs/mi-ugens.scd
+    engine : int
+        chooses synthesis engine (0 -- 15):
+        0:virtual_analog_engine, 1:waveshaping_engine, 2:fm_engine, 3:grain_engine, 4:additive_engine, 5:wavetable_engine, 6:chord_engine, 7:speech_engine, 8:swarm_engine, 9:noise_engine, 10:particle_engine, 11:string_engine, 12:modal_engine, 13:bass_drum_engine, 14:snare_drum_engine, 15:hi_hat_engine
 
-    Create a new parameter definitions file, mi-ugens-params.hs, with these parameters
-    Linux: ~/.local/share/SuperCollider/synthdefs/mi-ugens-params.hs
-    Configure SuperCollider - edit your startup.scd:
-    Linux: ~/.conf/SuperCollider/startup.scd
+    harm : int
+        harmonics parameter (0. -- 1.)
 
-    Load the mi-ugens.scd synthdef in startup.scd. Use the full path from 3.
-    load("~/.local/share/SuperCollider/synthdefs/mi-ugens.scd");
+    timbre : int
+        timbre parameter (0. -- 1.)
 
-    see: mi-UGens/build/mi-UGens/Classes/MiPlaits.sc
-    MiPlaits : MultiOutUGen {
+    morph : int
+        morph parameter (0. -- 1.)
 
-	*ar {
-		arg pitch=60.0, engine=0, harm=0.1, timbre=0.5, morph=0.5, trigger=0.0, level=0, fm_mod=0.0, timb_mod=0.0,
-		morph_mod=0.0, decay=0.5, lpg_colour=0.5, mul=1.0;
-		^this.multiNew('audio', pitch, engine, harm, timbre, morph, trigger, level, fm_mod, timb_mod, morph_mod,
-			decay, lpg_colour).madd(mul);
-	}
-	//checkInputs { ^this.checkSameRateAsFirstInput }
+    trigger : int
+        A non-zero value causes a trigger to
+            a) fire the internal decaying envelope generator
+            b) excites the physical and percussive models
+            c) strikes the internal low-pass gate (LPG) (unless the 'level' input is modulated (patched))
+            d) samples and holds the value of the 'model' input
 
-	init { arg ... theInputs;
-		inputs = theInputs;
-		^this.initOutputs(2, rate);
-	}
-}
 
+    level : int
+        Opens the internal low-pass gate, to simultaneously control the amplitude and brightness of the output signal. Also acts as an accent control when triggering the physical or percussive models.
+
+    fm_mod : int
+        fm modulation amount, if internal env is activated by trigger (-1. -- 1.)
+
+    timb_mod : int
+        timbre modulation amount, if internal env is activated by trigger (-1. -- 1.)
+
+    morph_mod : int
+        morph modulation amount, if internal env is activated by trigger (-1. -- 1.)
+
+    decay : int
+        decay rate of internal lowpass gate (0. -- 1.)
+
+    lpg_colour : int
+        "colour" of internal lowpass gate (0. -- 1.)
+
+    mul : int
+        set output gain
     ::
 
         >>> supriya.ugens.MiPlaits.ar()
@@ -57,7 +68,7 @@ class MiPlaits(UGen):
     morph_mod=param(0.0)
     decay=param(0.5)
     lpg_colour=param(0.5)
-    # mul=param(1.0)
+    mul=param(1.0)
 
 # Output of
 # ugen.postln;
