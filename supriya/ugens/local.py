@@ -1,5 +1,6 @@
 from .core import UGen, param, ugen
 
+
 @ugen(ar=True, is_multichannel=True, channel_count=2)
 class MiPlaits(UGen):
     """Mutable Instruments Plaits UGen.
@@ -62,16 +63,16 @@ class MiPlaits(UGen):
         >>> supriya.ugens.MiPlaits.ar()
         <MiPlaits.ar()[0]>
     """
-    pitch=param(60.0)
-    engine=param(0)
-    harm=param(0.1)
-    timbre=param(0.5)
-    morph=param(0.5)
-    trigger=param(0.0)
-    level=param(0)
-    fm_mod=param(0.0)
-    timb_mod=param(0.0)
-    morph_mod=param(0.0)
-    decay=param(0.5)
-    lpg_colour=param(0.5)
-    mul=param(1.0)
+    pitch = param(60.0)
+    engine = param(0)
+    harm = param(0.1)
+    timbre = param(0.5)
+    morph = param(0.5)
+    trigger = param(0.0)
+    level = param(0)
+    fm_mod = param(0.0)
+    timb_mod = param(0.0)
+    morph_mod = param(0.0)
+    decay = param(0.5)
+    lpg_colour = param(0.5)
+    mul = param(1.0)
